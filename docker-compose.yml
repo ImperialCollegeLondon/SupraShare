@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   web:
-    build: ./example
+    build: .
     environment:
       - LOGGING_FILE=/usr/src/app/log/example
     volumes:
