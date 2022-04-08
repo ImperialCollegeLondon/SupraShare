@@ -5,6 +5,6 @@ FROM python
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 COPY . ./
-CMD gunicorn graph:server -b :8050
+CMD gunicorn example.graph:server -b :8050
 
 EXPOSE 8050
