@@ -1,8 +1,8 @@
 # Simple Dash example from https://dash.plotly.com/layout
-from dash import Dash, dcc, html
-import plotly.express as px
-import pandas as pd
 import flask
+import pandas as pd
+import plotly.express as px
+from dash import Dash, dcc, html
 
 server = flask.Flask(__name__)  # define flask app.server
 
@@ -32,7 +32,8 @@ app.layout = html.Div(
     style={"backgroundColor": colors["background"]},
     children=[
         html.H1(
-            children="Hello", style={"textAlign": "center", "color": colors["text"]},
+            children="Hello",
+            style={"textAlign": "center", "color": colors["text"]},
         ),
         html.Div(
             children="Dash: A web application framework for your data.",
