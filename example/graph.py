@@ -2,8 +2,13 @@
 from dash import Dash, dcc, html
 import plotly.express as px
 import pandas as pd
+import flask
 
-app = Dash(__name__)
+server = flask.Flask(__name__)  # define flask app.server
+
+app = Dash(__name__, server=server)  # call flask server
+
+# Run in production with gunicorn example.graph:server -b :8050
 
 colors = {"background": "#111111", "text": "#7FDBFF"}
 
@@ -27,8 +32,7 @@ app.layout = html.Div(
     style={"backgroundColor": colors["background"]},
     children=[
         html.H1(
-            children="Hello",
-            style={"textAlign": "center", "color": colors["text"]},
+            children="Hello", style={"textAlign": "center", "color": colors["text"]},
         ),
         html.Div(
             children="Dash: A web application framework for your data.",
