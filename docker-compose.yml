@@ -10,3 +10,4 @@ services:
       - ./log:/usr/src/app/log
     ports:
       - 8050:8050
+
