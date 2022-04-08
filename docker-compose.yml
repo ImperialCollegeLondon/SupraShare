@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  web:
+    build: ./example
+    environment:
+      - LOGGING_FILE=/usr/src/app/log/example
+    volumes:
+      - .:/usr/src/app
+      - ./log:/usr/src/app/log
+    ports:
+      - 8050:8050
+
