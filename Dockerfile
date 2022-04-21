@@ -1,10 +1,11 @@
-FROM python:3.8-slim-buster as python
+FROM continuumio/miniconda3
 
-FROM python
+RUN conda config --add channels  conda-forge
+RUN conda install python==3.6.5
+RUN conda install -y rdkit==2018.03.1.0 flask=0.12.2 flask-cors=3.0.3
+RUN pip install scikit-learn==0.19.1 gunicorn==19.7.1 scipy
 
-COPY requirements.txt ./requirements.txt
-RUN pip install -r requirements.txt
 COPY . ./
-CMD gunicorn example.graph:server -b :8050
+CMD gunicorn website.app:app -b :8050
 
 EXPOSE 8050
