@@ -27,7 +27,9 @@ jobs:
           conda env create -f environment.yml
           source activate suprashare
       - name: Run tests
-        run: pytest -v 
+        run: |
+          source activate suprashare
+          pytest -v 
 
 
   publish:
