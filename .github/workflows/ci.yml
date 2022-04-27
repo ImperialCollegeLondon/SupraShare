@@ -6,14 +6,33 @@ jobs:
 
   qa:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: pre-commit/action@v2.0.2
 
+  test:
+    needs: qa
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Conda setup
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+      - name: Conda environment creation
+        run: |
+          conda env create -f environment.yml
+          conda activate suprashare
+      - name: Run tests
+        run: pytest -v 
+
+
   publish:
     if: github.ref == 'refs/heads/main'
     needs: qa
-
     runs-on: ubuntu-latest
 
     steps:
