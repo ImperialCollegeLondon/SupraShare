@@ -43,7 +43,7 @@ jobs:
 
   publish:
     if: github.ref == 'refs/heads/main'
-    needs: qa
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
