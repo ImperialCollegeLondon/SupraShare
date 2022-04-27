@@ -3,7 +3,7 @@ import pickle
 from glob import iglob
 
 import rdkit.Chem.AllChem as rdkit
-from flask import Flask, current_app, redirect, request, url_for
+from flask import Blueprint, Flask, current_app, redirect, render_template, request
 
 
 def bb_count_fingerprint(mols, bits, radius):
@@ -41,17 +41,34 @@ def load_models():
 app = Flask(__name__, instance_relative_config=True)
 app.models = load_models()
 
+default_bp = Blueprint("default", __name__, template_folder="templates")
 
-@app.route("/")
+
+@default_bp.route("/")
 def root():
-    return redirect(url_for("static", filename="index.html"))
+    return render_template("index.html")
 
 
-@app.route("/predict/<model_name>", methods=["POST"])
+@default_bp.route("/predict/<model_name>", methods=["POST"])
 def predict(model_name):
     ans = current_app.models[model_name].predict(fingerprint())
     return str(ans[0])
 
+
+url_prefix = os.getenv("URL_PREFIX", "")
+if url_prefix:
+    static_url_path = url_prefix + "/static"
+else:
+    static_url_path = "/static"
+
+app.static_url_path = static_url_path
+app.register_blueprint(default_bp, url_prefix=url_prefix)
+
+if url_prefix:
+    # if url_prefix assume running in production
+    from werkzeug.middleware.proxy_fix import ProxyFix
+
+    app = ProxyFix(app)  # enable choice of http(s) based on request headers
 
 if __name__ == "__main__":
     # port = int(os.environ.get('PORT', 5000))
