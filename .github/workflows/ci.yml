@@ -6,14 +6,44 @@ jobs:
 
   qa:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: pre-commit/action@v2.0.2
 
+  test:
+    needs: qa
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Conda setup
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+
+      # cache the conda installation to speedup CI runs
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: /usr/share/miniconda/envs/suprashare
+          key: ${{ runner.os }}-conda-cache-${{ hashFiles('environment.yml') }}
+          
+      - name: Conda environment creation
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          conda env create -f environment.yml
+          source activate suprashare
+      - name: Run tests
+        run: |
+          source activate suprashare
+          pytest -v 
+
+
   publish:
     if: github.ref == 'refs/heads/main'
     needs: qa
-
     runs-on: ubuntu-latest
 
     steps:
