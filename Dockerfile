@@ -1,11 +1,8 @@
-FROM continuumio/miniconda3
+FROM mambaorg/micromamba:0.23.0
 
-RUN conda update conda
-COPY environment.yml .
-RUN conda env create -f environment.yml
-
-# Make RUN commands use the new env
-SHELL ["conda", "run", "-n", "suprashare", "/bin/bash", "-c"]
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
+RUN micromamba install -y -f /tmp/environment.yml && \
+    micromamba clean --all --yes
 
 COPY . ./
 
