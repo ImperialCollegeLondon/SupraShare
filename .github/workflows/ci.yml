@@ -23,7 +23,6 @@ jobs:
         with:
           cache-env: true
           micromamba-version: 0.23.0
-          environment-file: environment.yml
 
       - name: Run tests
         run: |
