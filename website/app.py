@@ -38,7 +38,13 @@ def load_models():
     return models
 
 
-app = Flask(__name__, instance_relative_config=True)
+url_prefix = os.getenv("URL_PREFIX", "")
+if url_prefix:
+    static_url_path = url_prefix + "/static"
+else:
+    static_url_path = "/static"
+
+app = Flask(__name__, instance_relative_config=True, static_url_path=static_url_path)
 app.models = load_models()
 
 default_bp = Blueprint("default", __name__, template_folder="templates")
@@ -55,13 +61,6 @@ def predict(model_name):
     return str(ans[0])
 
 
-url_prefix = os.getenv("URL_PREFIX", "")
-if url_prefix:
-    static_url_path = url_prefix + "/static"
-else:
-    static_url_path = "/static"
-
-app.static_url_path = static_url_path
 app.register_blueprint(default_bp, url_prefix=url_prefix)
 
 if url_prefix:
