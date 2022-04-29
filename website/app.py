@@ -1,12 +1,11 @@
 import os
 from pathlib import Path
 
-from dash import Dash, dcc, html
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output, State, MATCH
+from dash import Dash, dcc, html
+from dash.dependencies import MATCH, Input, Output, State
 from dash.exceptions import PreventUpdate
 from flask import Flask
-
 from model import predict
 
 url_prefix = os.getenv("URL_PREFIX", "")
