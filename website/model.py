@@ -29,8 +29,8 @@ def fingerprint(bb, lk):
         raise ValueError(
             "Invalid values for fingerprint: bb and lk must be valid SMILES strings"
         )
-    bb = rdkit.AddHs()
-    lk = rdkit.AddHs()
+    bb = rdkit.AddHs(bb)
+    lk = rdkit.AddHs(lk)
     return [bb_count_fingerprint((bb, lk), 512, 8)]
 
 

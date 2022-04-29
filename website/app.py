@@ -6,7 +6,8 @@ from dash import Dash, dcc, html
 from dash.dependencies import MATCH, Input, Output, State
 from dash.exceptions import PreventUpdate
 from flask import Flask
-from model import predict
+
+from .model import predict
 
 url_prefix = os.getenv("URL_PREFIX", "")
 

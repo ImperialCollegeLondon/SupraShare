@@ -9,5 +9,5 @@ SHELL ["conda", "run", "-n", "suprashare", "/bin/bash", "-c"]
 
 COPY . ./
 
-CMD gunicorn website.app:app -b :8050
+CMD gunicorn website.app:server -b :8050
 EXPOSE 8050
