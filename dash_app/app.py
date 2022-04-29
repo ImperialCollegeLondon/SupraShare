@@ -6,8 +6,8 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State, MATCH
 from dash.exceptions import PreventUpdate
 from flask import Flask
-import plotly.express as px
 
+from model import predict
 
 url_prefix = os.getenv("URL_PREFIX", "")
 
@@ -60,10 +60,10 @@ app.layout = html.Div(
                         dbc.Col(
                             [
                                 html.Img(
-                                    src=app.get_asset_url("cavity.png"), height="300px"
+                                    src=app.get_asset_url("cavity.png"), height="250px"
                                 ),
                                 dbc.Label(
-                                    "CC3, a shape persistent cage with cavity highlighted in red."
+                                    "CC3, a shape persistent cage with cavity highlighted in red.",
                                 ),
                             ]
                         ),
@@ -71,7 +71,7 @@ app.layout = html.Div(
                             [
                                 html.Img(
                                     src=app.get_asset_url("collapsed.png"),
-                                    height="300px",
+                                    height="250px",
                                 ),
                                 dbc.Label("A collapsed cage lacking a central cavity."),
                             ]
@@ -116,15 +116,15 @@ def add_row(n_clicks, children):
         dbc.Row(
             [
                 dbc.Col(
-                    dbc.Input(type="text"),
+                    dbc.Input(type="text", id=dict(type="lk", index=n_clicks)),
                 ),
                 dbc.Col(
-                    dbc.Input(type="text"),
+                    dbc.Input(type="text", id=dict(type="bb", index=n_clicks)),
                 ),
                 dbc.Col(
                     [
                         dbc.Select(
-                            id="model-dropdown",
+                            id=dict(type="model-dropdown", index=n_clicks),
                             value="amine2aldehyde3",
                             options=[
                                 {"label": model.stem, "value": model.stem}
@@ -143,11 +143,7 @@ def add_row(n_clicks, children):
                     ],
                     class_name="d-grid gap-2",
                 ),
-                dbc.Col(
-                    dbc.Label(
-                        id=dict(type="result", index=n_clicks),
-                    )
-                ),
+                dbc.Col(dbc.Spinner(dbc.Label(id=dict(type="result", index=n_clicks)))),
             ],
             align="center",
         )
@@ -158,13 +154,24 @@ def add_row(n_clicks, children):
 @app.callback(
     Output({"type": "result", "index": MATCH}, "children"),
     Input({"type": "run-button", "index": MATCH}, "n_clicks"),
-    State({"type": "run-button", "index": MATCH}, "id"),
+    State({"type": "model-dropdown", "index": MATCH}, "value"),
+    State({"type": "bb", "index": MATCH}, "value"),
+    State({"type": "lk", "index": MATCH}, "value"),
 )
-def run_model(n_clicks, button_id):
-    if n_clicks is None:
+def run_model(n_clicks, model_name, bb, lk):
+    if n_clicks is None or bb is None or lk is None:
         raise PreventUpdate
 
-    return button_id["index"]
+    try:
+        result = predict(model_name, bb, lk)
+    except ValueError:
+        return dbc.Label("INVALID INPUT", color="warning")
+
+    if result == 1:
+        return dbc.Label("COLLAPSED", color="danger")
+    if result == 0:
+        return dbc.Label("SHAPE PERSISTENT", color="success")
+    return dbc.Label("MODEL ERROR", color="warning")
 
 
 if __name__ == "__main__":
