@@ -20,10 +20,9 @@ app = Dash(
     routes_pathname_prefix=url_prefix + "/",
 )
 
-
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Is My Cage Porous?", href="#")),
+        dbc.NavItem(dbc.NavLink("Is My Cage Porous?", href=url_prefix, active=True)),
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("Page 2", href="#"),
@@ -98,7 +97,19 @@ app.layout = html.Div(
     Input("add-button", "n_clicks"),
     State("run-card", "children"),
 )
-def add_row(n_clicks, children):
+def add_row(n_clicks: int, children: list) -> list:
+    """Adds a row to the card with the model results when "Add Row" button is clicked.
+
+    Each object in the row is provided with a dictionary id so that they can be used
+    correctly with pattern-matching callbacks.
+
+    Args:
+        n_clicks (int): Increments on a button click. The trigger for this callback.
+        children (list): The children of the card. Contains dbc.Row or dbc.Form.
+
+    Returns:
+        list: The updated children. Equivalent to the input children plus a Form/Row
+    """
     if n_clicks is None:
         n_clicks = 0
 
@@ -124,13 +135,11 @@ def add_row(n_clicks, children):
                     ]
                 ),
                 dbc.Col(
-                    [
-                        dbc.Button(
-                            "Run Model \U0001F680",
-                            id=dict(type="run-button", index=n_clicks),
-                            color="primary",
-                        )
-                    ],
+                    dbc.Button(
+                        "Run Model \U0001F680",
+                        id=dict(type="run-button", index=n_clicks),
+                        color="primary",
+                    ),
                     class_name="d-grid gap-2",
                 ),
                 dbc.Col(dbc.Spinner(dbc.Label(id=dict(type="result", index=n_clicks)))),
@@ -148,7 +157,29 @@ def add_row(n_clicks, children):
     State({"type": "bb", "index": MATCH}, "value"),
     State({"type": "lk", "index": MATCH}, "value"),
 )
-def run_model(n_clicks, model_name, bb, lk):
+def run_model(n_clicks: int, model_name: str, bb: str, lk: str) -> dbc.Label:
+    """Runs the model when the "Run Model" button is clicked and displays the result.
+
+    Since there are potentially multiple "Run Model" buttons, we need to know which one
+    was clicked so we can fill in the corresponding result box. This is done using
+    Pattern-Matching Callbacks (see: https://dash.plotly.com/pattern-matching-callbacks)
+
+    Args:
+        n_clicks (int): Increments on a button click. The trigger for this callback.
+        model_name (str): The name of the desired model to run
+        bb (str): The Building Block SMILES string.
+        lk (str): The Linker SMILES string.
+
+    Raises:
+        PreventUpdate: Prevents the callback from being run automatically on page load.
+
+    Returns:
+        dbc.Label: A label with the result of the model. Possible Answers:
+            - INVALID INPUT
+            - COLLAPSED
+            - SHAPE PERSISTENT
+            - MODEL ERROR
+    """
     if n_clicks is None or bb is None or lk is None:
         raise PreventUpdate
 
