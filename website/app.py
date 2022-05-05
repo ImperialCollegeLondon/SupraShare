@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import dash_bio as dashbio
 import dash_bootstrap_components as dbc
 from dash import Dash, dcc, html
 from dash.dependencies import MATCH, Input, Output, State
@@ -79,6 +80,12 @@ content = [
     ),
     dbc.Button("Add Row", id="add-button"),
     html.Br(),
+    dbc.Col(dbc.Button(dcc.Upload("Upload .mol file", id="file-upload"))),
+    html.Img(id="mol-image"),
+    dbc.Label(id="mol-smiles"),
+    dashbio.Jsme(id="jsme"),
+    dbc.Label(id="jsme-smiles"),
+    html.Br(),
 ]
 
 app.layout = html.Div(
@@ -88,8 +95,43 @@ app.layout = html.Div(
         dbc.Container(
             children=content,
         ),
+        html.Br(),
+        html.Footer(
+            dbc.NavbarSimple(dbc.NavItem("Imperial College London"), color="light")
+        ),
     ]
 )
+
+
+@app.callback(
+    Output("mol-smiles", "children"),
+    Output("mol-image", "src"),
+    Output("jsme", "smiles"),
+    Input("file-upload", "contents"),
+)
+def upload_file(contents):
+    from rdkit.Chem.Draw import MolsToGridImage
+    from rdkit.Chem.rdmolfiles import MolToSmiles, MolFromMolBlock
+    import base64
+
+    if contents is None:
+        raise PreventUpdate
+
+    _, content_string = contents.split(",")
+    decoded = base64.b64decode(content_string)
+
+    mol = MolFromMolBlock(decoded)
+    smiles = MolToSmiles(mol)
+    img = MolsToGridImage([mol], molsPerRow=1, subImgSize=(200, 200))
+    return smiles, img, smiles
+
+
+@app.callback(
+    Output("jsme-smiles", "children"),
+    Input("jsme", "eventSmiles"),
+)
+def show_smiles(smiles):
+    return smiles
 
 
 @app.callback(
