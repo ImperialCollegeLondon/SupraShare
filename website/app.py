@@ -110,9 +110,10 @@ app.layout = html.Div(
     Input("file-upload", "contents"),
 )
 def upload_file(contents):
-    from rdkit.Chem.Draw import MolsToGridImage
-    from rdkit.Chem.rdmolfiles import MolToSmiles, MolFromMolBlock
     import base64
+
+    from rdkit.Chem.Draw import MolsToGridImage
+    from rdkit.Chem.rdmolfiles import MolFromMolBlock, MolToSmiles
 
     if contents is None:
         raise PreventUpdate
@@ -122,6 +123,7 @@ def upload_file(contents):
 
     mol = MolFromMolBlock(decoded)
     smiles = MolToSmiles(mol)
+    # mol = Chem.MolFromSmiles(smiles)
     img = MolsToGridImage([mol], molsPerRow=1, subImgSize=(200, 200))
     return smiles, img, smiles
 
