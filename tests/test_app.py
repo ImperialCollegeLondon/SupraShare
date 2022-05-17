@@ -1,6 +1,6 @@
 import rdkit.Chem.AllChem as rdkit
 
-from website.app import bb_count_fingerprint, load_models, predict
+from website.model import bb_count_fingerprint, load_models
 
 
 def test_load_models():

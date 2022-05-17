@@ -4,10 +4,9 @@ RUN conda update conda
 COPY environment.yml .
 RUN conda env create -f environment.yml
 
-# Make RUN commands use the new env
-SHELL ["conda", "run", "-n", "suprashare", "/bin/bash", "-c"]
+COPY . /usr/src/app
 
-COPY . ./
+WORKDIR /usr/src/app
 
-CMD gunicorn website.app:app -b :8050
+CMD /opt/conda/envs/suprashare/bin/gunicorn website.app:server -b :8050
 EXPOSE 8050

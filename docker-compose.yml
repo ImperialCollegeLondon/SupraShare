@@ -3,11 +3,11 @@ version: "3.9"
 services:
   web:
     build: .
-    environment:
-      - LOGGING_FILE=/usr/src/app/log/example
     volumes:
       - .:/usr/src/app
-      - ./log:/usr/src/app/log
     ports:
-      - 8050:8050
-
+      - 127.0.0.1:8050:8050
+    command:
+      - /opt/conda/envs/suprashare/bin/python
+      - -m
+      - website.app
