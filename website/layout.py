@@ -1,58 +1,38 @@
-import os
 from pathlib import Path
 
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 
-url_prefix = os.getenv("URL_PREFIX", "")
-
-navbar = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("Is My Cage Porous?", href=url_prefix, active=True)),
-        dbc.DropdownMenu(
-            children=[
-                dbc.DropdownMenuItem("Page 2", href="#"),
-                dbc.DropdownMenuItem("Page 3", href="#"),
-            ],
-            nav=True,
-            in_navbar=True,
-            label="More",
-        ),
-    ],
-    brand="SupraShare",
-    brand_href="#",
-    color="primary",
-    dark=True,
-)
-
 with open(Path(__file__).parent / "static" / "index.md", "r") as f:
     md = f.readlines()
+
+
+def image_row():
+    return dbc.Row(
+        [
+            dbc.Col(
+                [
+                    html.Img(src=dash.get_asset_url("cavity.png"), height="250px"),
+                    dbc.Label(
+                        "CC3, a shape persistent cage with cavity highlighted in red."
+                    ),
+                ]
+            ),
+            dbc.Col(
+                [
+                    html.Img(src=dash.get_asset_url("collapsed.png"), height="250px"),
+                    dbc.Label("A collapsed cage lacking a central cavity."),
+                ]
+            ),
+        ]
+    )
 
 
 def content():
     return [
         dcc.Markdown(md),
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.Img(src=dash.get_asset_url("cavity.png"), height="250px"),
-                        dbc.Label(
-                            "CC3, a shape persistent cage with cavity highlighted in red."
-                        ),
-                    ]
-                ),
-                dbc.Col(
-                    [
-                        html.Img(
-                            src=dash.get_asset_url("collapsed.png"), height="250px"
-                        ),
-                        dbc.Label("A collapsed cage lacking a central cavity."),
-                    ]
-                ),
-            ]
-        ),
+        image_row(),
         html.Br(),
         dbc.Card(
             id="run-card",
@@ -77,19 +57,3 @@ def content():
         dbc.Label(id="jsme-smiles"),
         html.Br(),
     ]
-
-
-def layout():
-    return html.Div(
-        children=[
-            navbar,
-            html.Br(),
-            dbc.Container(
-                children=content(),
-            ),
-            html.Br(),
-            html.Footer(
-                dbc.NavbarSimple(dbc.NavItem("Imperial College London"), color="light")
-            ),
-        ]
-    )

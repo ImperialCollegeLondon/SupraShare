@@ -1,13 +1,32 @@
 import os
 
 import dash_bootstrap_components as dbc
-from dash import Dash
+from dash import Dash, html
 from flask import Flask
 
-from . import callbacks
-from .layout import layout
+from . import callbacks  # noqa: F401
+from .layout import content
 
 url_prefix = os.getenv("URL_PREFIX", "")
+
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(dbc.NavLink("Is My Cage Porous?", href=url_prefix, active=True)),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Page 2", href="#"),
+                dbc.DropdownMenuItem("Page 3", href="#"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="More",
+        ),
+    ],
+    brand="SupraShare",
+    brand_href="#",
+    color="primary",
+    dark=True,
+)
 
 server = Flask(__name__)
 app = Dash(
@@ -19,8 +38,27 @@ app = Dash(
 )
 
 
-app.layout = layout
+def layout():
+    if url_prefix == "":
+        return html.Div(
+            children=[
+                navbar,
+                html.Br(),
+                dbc.Container(
+                    children=content(),
+                ),
+                html.Br(),
+                html.Footer(
+                    dbc.NavbarSimple(
+                        dbc.NavItem("Imperial College London"), color="light"
+                    )
+                ),
+            ]
+        )
+    return dbc.Container(children=content())
 
+
+app.layout = layout
 
 if __name__ == "__main__":
     app.run_server(debug=True, host="0.0.0.0")

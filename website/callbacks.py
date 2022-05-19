@@ -1,15 +1,14 @@
 from pathlib import Path
 
-import dash
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import callback, html
 from dash.dependencies import MATCH, Input, Output, State
 from dash.exceptions import PreventUpdate
 
 from .model import predict
 
 
-@dash.callback(
+@callback(
     Output("mol-smiles", "children"),
     Output("mol-image", "src"),
     Output("jsme-div", "children"),
@@ -36,7 +35,7 @@ def upload_file(contents):
 
         jsme = dashbio.Jsme(smiles=smiles, id="jsme")
 
-        @dash.callback(Output("jsme-smiles", "children"), Input("jsme", "eventSmiles"))
+        @callback(Output("jsme-smiles", "children"), Input("jsme", "eventSmiles"))
         def show_smiles(smiles):
             return smiles
 
@@ -45,7 +44,7 @@ def upload_file(contents):
         return smiles, img, html.Img(src=img)
 
 
-@dash.callback(
+@callback(
     Output("run-card", "children"),
     Input("add-button", "n_clicks"),
     State("run-card", "children"),
@@ -54,10 +53,10 @@ def add_row(n_clicks: int, children: list) -> list:
     """Adds a row to the card with the model results when "Add Row" button is clicked.
 
     Each object in the row is provided with a dictionary id so that they can be used
-    correctly with pattern-matching dash.callbacks.
+    correctly with pattern-matching callbacks.
 
     Args:
-        n_clicks (int): Increments on a button click. The trigger for this dash.callback.
+        n_clicks (int): Increments on a button click. The trigger for this callback.
         children (list): The children of the card. Contains dbc.Row or dbc.Form.
 
     Returns:
@@ -103,7 +102,7 @@ def add_row(n_clicks: int, children: list) -> list:
     return children + [form]
 
 
-@dash.callback(
+@callback(
     Output({"type": "result", "index": MATCH}, "children"),
     Input({"type": "run-button", "index": MATCH}, "n_clicks"),
     State({"type": "model-dropdown", "index": MATCH}, "value"),
@@ -115,16 +114,16 @@ def run_model(n_clicks: int, model_name: str, bb: str, lk: str) -> dbc.Label:
 
     Since there are potentially multiple "Run Model" buttons, we need to know which one
     was clicked so we can fill in the corresponding result box. This is done using
-    Pattern-Matching dash.callbacks (see: https://dash.plotly.com/pattern-matching-dash.callbacks)
+    Pattern-Matching Callbacks (see: https://dash.plotly.com/pattern-matching-callbacks)
 
     Args:
-        n_clicks (int): Increments on a button click. The trigger for this dash.callback.
+        n_clicks (int): Increments on a button click. The trigger for this callback.
         model_name (str): The name of the desired model to run
         bb (str): The Building Block SMILES string.
         lk (str): The Linker SMILES string.
 
     Raises:
-        PreventUpdate: Prevents the dash.callback from being run automatically on page load.
+        PreventUpdate: Prevents the callback from being run automatically on page load.
 
     Returns:
         dbc.Label: A label with the result of the model. Possible Answers:
