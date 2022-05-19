@@ -4,7 +4,7 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
 
-from .components import captioned_image_row, mol_file_upload_button, mol_image
+from .components import captioned_image_row
 
 
 def content() -> list:
@@ -60,6 +60,6 @@ def content() -> list:
         dbc.Card(table_headers, id="run-card"),
         dbc.Button("Add Row", id="add-button", class_name="me-1"),
         # How to include a file upload button and corresponding image:
-        mol_file_upload_button("Upload .mol file", id_index=0),
-        mol_image(id_index=0),  # Note: id_index must match above
+        # mol_file_upload_button("Upload .mol file", id_index=0),
+        # mol_image(id_index=0),  # Note: id_index must match above
     ]
