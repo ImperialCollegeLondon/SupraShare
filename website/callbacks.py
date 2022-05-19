@@ -1,47 +1,11 @@
 from pathlib import Path
 
 import dash_bootstrap_components as dbc
-from dash import callback, html
+from dash import callback
 from dash.dependencies import MATCH, Input, Output, State
 from dash.exceptions import PreventUpdate
 
 from .model import predict
-
-
-@callback(
-    Output("mol-smiles", "children"),
-    Output("mol-image", "src"),
-    Output("jsme-div", "children"),
-    Input("file-upload", "contents"),
-)
-def upload_file(contents):
-    import base64
-
-    from rdkit.Chem.Draw import MolsToGridImage
-    from rdkit.Chem.rdmolfiles import MolFromMolBlock, MolToSmiles
-
-    if contents is None:
-        raise PreventUpdate
-
-    _, content_string = contents.split(",")
-    decoded = base64.b64decode(content_string)
-
-    mol = MolFromMolBlock(decoded)
-    smiles = MolToSmiles(mol)
-    # mol = Chem.MolFromSmiles(smiles)
-    img = MolsToGridImage([mol], molsPerRow=1, subImgSize=(200, 200))
-    try:
-        import dash_bio as dashbio
-
-        jsme = dashbio.Jsme(smiles=smiles, id="jsme")
-
-        @callback(Output("jsme-smiles", "children"), Input("jsme", "eventSmiles"))
-        def show_smiles(smiles):
-            return smiles
-
-        return smiles, img, jsme
-    except ImportError:
-        return smiles, img, html.Img(src=img)
 
 
 @callback(

@@ -43,7 +43,9 @@ def layout():
         return html.Div(
             children=[
                 html.Header(navbar),
-                dbc.Container(dbc.Col(content())),
+                dbc.Container(
+                    [dbc.Row(dbc.Col(cc, class_name="gy-2")) for cc in content()]
+                ),
                 html.Footer(
                     dbc.NavbarSimple(
                         dbc.NavItem("Imperial College London"),
