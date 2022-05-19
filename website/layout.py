@@ -4,35 +4,26 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 
+from .components import captioned_image_row
+
 with open(Path(__file__).parent / "static" / "index.md", "r") as f:
     md = f.readlines()
 
 
-def image_row():
-    return dbc.Row(
-        [
-            dbc.Col(
-                [
-                    html.Img(src=dash.get_asset_url("cavity.png"), height="250px"),
-                    dbc.Label(
-                        "CC3, a shape persistent cage with cavity highlighted in red."
-                    ),
-                ]
-            ),
-            dbc.Col(
-                [
-                    html.Img(src=dash.get_asset_url("collapsed.png"), height="250px"),
-                    dbc.Label("A collapsed cage lacking a central cavity."),
-                ]
-            ),
-        ]
-    )
-
-
 def content():
+    images_and_captions = [
+        dict(
+            src=dash.get_asset_url("cavity.png"),
+            caption="CC3, a shape persistent cage with cavity highlighted in red.",
+        ),
+        dict(
+            src=dash.get_asset_url("collapsed.png"),
+            caption="A collapsed cage lacking a central cavity.",
+        ),
+    ]
     return [
         dcc.Markdown(md),
-        image_row(),
+        captioned_image_row(images_and_captions),
         html.Br(),
         dbc.Card(
             id="run-card",
