@@ -125,7 +125,7 @@ def mol_image(id_index: int, width=3) -> list:
     Input({"type": "mol-smiles", "index": MATCH}, "data"),
 )
 def display_mol_image(smiles: str) -> dbc.Card:
-    """Displays the image of the molecule in _mol_smiles in the mol_image container.
+    """Displays the image of the molecule in mol-smiles in the mol-image container.
 
     Args:
         smiles (str): A SMILES string from the _mol_smiles data store.
