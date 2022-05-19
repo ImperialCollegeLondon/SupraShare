@@ -42,15 +42,12 @@ def layout():
     if url_prefix == "":
         return html.Div(
             children=[
-                navbar,
-                html.Br(),
-                dbc.Container(
-                    children=content(),
-                ),
-                html.Br(),
+                html.Header(navbar),
+                dbc.Container(dbc.Col(content())),
                 html.Footer(
                     dbc.NavbarSimple(
-                        dbc.NavItem("Imperial College London"), color="light"
+                        dbc.NavItem("Imperial College London"),
+                        color="light",
                     )
                 ),
             ]
