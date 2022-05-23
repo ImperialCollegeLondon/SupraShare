@@ -14,7 +14,7 @@ def content() -> list:
         list: A list of each component ordered from the top of the page to the bottom.
     """
     # Read the static markdown content in static/index.md for the top of the webpage.
-    # Edit this file to edit the text content at the top of the page.
+    # Edit that file to modify the text content at the top of the page.
     with open(Path(__file__).parent / "static" / "index.md", "r") as f:
         md = f.readlines()
 
