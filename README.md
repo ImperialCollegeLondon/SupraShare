@@ -12,9 +12,9 @@ The image is added to the webserver at [suprashare.rcs.ic.ac.uk](https://suprash
 
 ## Template structure
 
-The code in this template is separated into several submodules depending on its function. 
+The code in this template is separated into several submodules depending on its function.
 
-TODO: 1 sentence/bullet point per file describing its purpose. 
+TODO: 1 sentence/bullet point per file describing its purpose.
 
 ```mermaid
   graph TD;
@@ -22,6 +22,7 @@ TODO: 1 sentence/bullet point per file describing its purpose.
       Model-->Callbacks;
       Callbacks-->App;
       Layout-->App;
+
 ## Development
 
 SupraShare is jointly developed by the [Jelfs Research Group](http://www.jelfs-group.org/) and the Imperial College [Research Software Engineering Team](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/).
