@@ -10,6 +10,20 @@ A [Docker image of the containerised app](https://github.com/ImperialCollegeLond
 
 The image is added to the webserver at [suprashare.rcs.ic.ac.uk](https://suprashare.rcs.ic.ac.uk) by manually updating (i) the [docker-compose.yml file](https://docs.docker.com/compose/compose-file/) (ii) the [reverse proxy config](https://caddyserver.com/docs/caddyfile) and (iii) the static index page (front page of the web site), all within the virtual machine running the webserver.
 
+## Template structure
+
+The code in this template is separated into several submodules depending on its function.
+
+TODO: 1 sentence/bullet point per file describing its purpose.
+
+```mermaid
+  graph TD;
+      Components-->Layout;
+      Model-->Callbacks;
+      Callbacks-->App;
+      Layout-->App;
+ ```
+
 ## Development
 
 SupraShare is jointly developed by the [Jelfs Research Group](http://www.jelfs-group.org/) and the Imperial College [Research Software Engineering Team](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/).
