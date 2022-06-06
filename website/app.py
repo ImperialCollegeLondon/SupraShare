@@ -1,8 +1,8 @@
-import json
 import os
 from pathlib import Path
 
 import dash_bootstrap_components as dbc
+import yaml
 from dash import Dash, html
 from flask import Flask
 
@@ -12,9 +12,9 @@ from .layout import content
 URL_PREFIX = os.getenv("URL_PREFIX", "")
 APP_NAME = os.getenv("APP_NAME", "")
 
-if (filepath := Path(__file__).parent.parent / "app_list.json").exists():
+if (filepath := Path(__file__).parent.parent / "app_list.yaml").exists():
     with open(filepath, "r") as f:
-        app_list = json.load(f)
+        app_list = yaml.safe_load(f)
 else:
     app_list = {}
 
