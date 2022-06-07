@@ -21,12 +21,14 @@ else:
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink(APP_NAME, href=URL_PREFIX, active=True))
+        dbc.NavItem(
+            dbc.NavLink(APP_NAME, href=URL_PREFIX, external_link=True, active=True)
+        )
         if APP_NAME
         else None,
         dbc.DropdownMenu(
             children=[
-                dbc.DropdownMenuItem(name, href=link)
+                dbc.DropdownMenuItem(name, href=link, external_link=True)
                 for name, link in app_list.items()
                 if name != APP_NAME
             ],
