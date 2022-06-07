@@ -11,3 +11,4 @@ dependencies:
   - xarray
   - dash-bootstrap-components
   - dash-bio
+  - pyyaml

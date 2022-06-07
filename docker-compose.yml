@@ -5,6 +5,8 @@ services:
     build: .
     volumes:
       - .:/usr/src/app
+    environment:
+      - APP_NAME="Is my cage porous?"
     ports:
       - 127.0.0.1:8050:8050
     command:
