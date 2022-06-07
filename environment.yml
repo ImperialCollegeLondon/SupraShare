@@ -10,3 +10,5 @@ dependencies:
   - pytest==6.2.5
   - xarray==0.11.3
   - dash-bootstrap-components==1.1.0
+  # - dash-bio
+  - pyyaml
