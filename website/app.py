@@ -9,7 +9,7 @@ from flask import Flask
 from . import callbacks  # noqa: F401
 from .layout import content
 
-URL_PREFIX = os.getenv("URL_PREFIX", "")
+URL_PREFIX = os.getenv("URL_PREFIX", "") + "/"
 APP_NAME = os.getenv("APP_NAME", "")
 
 if (Path(__file__).parent.parent / "app_list.yaml").exists():
@@ -50,8 +50,8 @@ app = Dash(
     __name__,
     external_stylesheets=[dbc.themes.FLATLY],
     server=server,
-    requests_pathname_prefix=URL_PREFIX + "/",
-    routes_pathname_prefix=URL_PREFIX + "/",
+    requests_pathname_prefix=URL_PREFIX,
+    routes_pathname_prefix=URL_PREFIX,
 )
 
 
