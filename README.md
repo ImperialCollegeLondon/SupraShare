@@ -20,13 +20,16 @@ model.
 ## Using this template
 
 GitHub makes it easy to [create a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template).
-We recommend: Naming the repository `<model-name>-webapp` and including only the default
+We recommend naming the repository `<model-name>-webapp` and including only the default
 branch (`develop`). A new `main` branch can be created afterwards for CI/CD purposes
 (see [below](#tests-ci--cd)).
 
 ### Template structure
 
-The code in this template is separated into several submodules depending on its function.
+#### Website
+
+The code in the `website` directory is separated into several submodules depending on
+its function.
 
 TODO: 1 sentence/bullet point per file describing its purpose.
 
@@ -38,7 +41,24 @@ TODO: 1 sentence/bullet point per file describing its purpose.
       Layout-->App;
  ```
 
-### Running locally with Docker
+#### Models
+
+The trained ML models themselves should be put here, usually in a pickled format or
+similar.
+
+#### Tests
+
+Unit tests that check your model(s) give expected outputs for given inputs go here.
+You could also include more advanced tests to ensure the webapp behaves as expected.
+
+#### Config files
+
+As well as the usual files such as `LICENCE`, `.gitignore` etc., we have:
+
+- `.github/workflows/ci.yml`, `.flake8` and `.pre-commit-config.yaml` used for [continuous integration](#tests-ci--cd).
+- `Dockerfile` and `docker-compose.yml` contain settings used by [Docker](#build-and-run-with-docker).
+
+### Build and run with Docker
 
 ### Tests, CI & CD
 
