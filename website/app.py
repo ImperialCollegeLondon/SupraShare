@@ -9,7 +9,7 @@ from flask import Flask
 from . import callbacks  # noqa: F401
 from .layout import content
 
-URL_PREFIX = os.getenv("URL_PREFIX", "")
+URL_PREFIX = os.getenv("URL_PREFIX", "") + "/"
 APP_NAME = os.getenv("APP_NAME", "")
 
 if (Path(__file__).parent.parent / "app_list.yaml").exists():
@@ -21,12 +21,14 @@ else:
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink(APP_NAME, href=URL_PREFIX, active=True))
+        dbc.NavItem(
+            dbc.NavLink(APP_NAME, href=URL_PREFIX, external_link=True, active=True)
+        )
         if APP_NAME
         else None,
         dbc.DropdownMenu(
             children=[
-                dbc.DropdownMenuItem(name, href=link)
+                dbc.DropdownMenuItem(name, href=link, external_link=True)
                 for name, link in app_list.items()
                 if name != APP_NAME
             ],
@@ -48,8 +50,8 @@ app = Dash(
     __name__,
     external_stylesheets=[dbc.themes.FLATLY],
     server=server,
-    requests_pathname_prefix=URL_PREFIX + "/",
-    routes_pathname_prefix=URL_PREFIX + "/",
+    requests_pathname_prefix=URL_PREFIX,
+    routes_pathname_prefix=URL_PREFIX,
 )
 
 
