@@ -12,8 +12,7 @@ from .layout import content
 URL_PREFIX = os.getenv("URL_PREFIX", "") + "/"
 APP_NAME = os.getenv("APP_NAME", "")
 
-if (Path(__file__).parent.parent / "app_list.yaml").exists():
-    filepath = Path(__file__).parent.parent / "app_list.yaml"
+if (filepath := Path(__file__).parent.parent / "app_list.yaml").exists():
     with open(filepath, "r") as f:
         app_list = yaml.safe_load(f)
 else:
