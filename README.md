@@ -7,9 +7,9 @@ chemistry.
 
 This repo acts as a template for creating an interactive webapp for one trained model.
 The [SupraShare homepage](https://suprashare.rcs.ic.ac.uk/) hosts several webapps
-created using this template, all of which require completely different python environments.
+created using this template, all of which require completely different Python environments.
 We use [Docker](https://www.docker.com/) to keep these environments separated and [Caddy](https://caddyserver.com/docs/quick-starts/reverse-proxy)
-as a reverse proxy to make teach webapp accessible on the same webserver.
+as a webserver with a reverse proxy to make each webapp accessible.
 
 While the app in this template will start if run locally as is, it does not contain any
 working ML models. The reason for this is so we could include more features that you may
@@ -71,6 +71,10 @@ then set up a conda environment.
 When a container based on the image starts running the webapp server is started and the
 correct port is exposed. More information on the `Dockerfile` can be found [here](https://docs.docker.com/engine/reference/builder/).
 
+*Note:* The continuumio/miniconda3 parent image is quite large (although smaller than an anaconda equivalent) and still uses anaconda so can be slow to build complex environments.
+You may consider using [micromamba](https://github.com/mamba-org/micromamba-docker) to
+speed things up a bit.
+
 #### docker-compose.yml
 
 The [`docker-compose` command](https://docs.docker.com/compose/) is used to orchestrate
@@ -118,8 +122,8 @@ webapp is added.
 ### Adding a new model
 
 The webserver at is configured to periodically check the package repositories specified
-in `docker-compose.yml` for new images. A new service needs to be specified in this file,
-e.g.:
+in `docker-compose.yml` for new images. Assuming this is called `new-webapp` a new service
+needs to be specified in `docker-compose.yml`, e.g.:
 
 ```yaml
 services:
