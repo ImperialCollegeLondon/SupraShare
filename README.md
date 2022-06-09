@@ -39,7 +39,7 @@ separated into several submodules. The terminology is well-explained in the [Das
 - **Layout:** The content for the webpage is defined here, based on imported components.
 - **Model:** Functions that load, prepare and run the actual ML model(s).
 - **Callbacks:** Functions that are automatically called whenever an input component's property changes. These functions make the app interactive and are how users can interact with the underlying model.
-- **app:** The main python file to run the webapp. Brings together the **Layout** and **Callback** components and sets various important variables such as APP_NAME and URL_PATH.
+- **App:** The main python file to run the webapp. Brings together the **Layout** and **Callback** components and sets various important variables such as APP_NAME and URL_PATH.
 
 ```mermaid
   graph TD;
