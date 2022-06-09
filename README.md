@@ -21,6 +21,8 @@ For a working example that closely resembles the model in this template see the
 
 ## Using this template
 
+### Creating a repository
+
 GitHub makes it easy to [create a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template).
 We recommend naming the repository `<model-name>-webapp` and including only the default
 branch (`develop`). A new `main` branch can be created afterwards for deployment purposes
@@ -30,9 +32,14 @@ branch (`develop`). A new `main` branch can be created afterwards for deployment
 
 #### Website
 
-The code in the `website` directory is separated into several submodules:
+The code in the `website` directory uses [Plotly Dash](https://plotly.com/dash/) and is
+separated into several submodules. The terminology is well-explained in the [Dash documentation](https://dash.plotly.com/introduction).
 
-TODO: 1 sentence/bullet point per file describing its purpose.
+- **Components:** Each component used on the webpage and imported in **Layout** is defined here.Generally these are functions that return a dash core or dash bootstrap component.
+- **Layout:** The content for the webpage is defined here, based on imported components.
+- **Model:** Functions that load, prepare and run the actual ML model(s).
+- **Callbacks:** Functions that are automatically called whenever an input component's property changes. These functions make the app interactive and are how users can interact with the underlying model.
+- **app:** The main python file to run the webapp. Brings together the **Layout** and **Callback** components and sets various important variables such as APP_NAME and URL_PATH.
 
 ```mermaid
   graph TD;
@@ -112,7 +119,7 @@ The webserver setup consists of only a few configuration files:
 
 - **docker-compose.yml** configures the multi-container docker setup as described above and
 - **docker-compose.override.yml** handles the automatic pulling of new images using [watchtower](https://github.com/containrrr/watchtower).
-- **Caddyfile** configures the [Caddy](https://caddyserver.com/docs/caddyfile) web server, mainly handling the reverse proxy that directs client requests to the correct webapp.
+- **Caddyfile** configures the [Caddy](https://caddyserver.com/docs/caddyfile) webserver, mainly handling the reverse proxy that directs client requests to the correct webapp.
 - **app_list.yml** is used internally by each app to provide links to other apps in the navbar.
 - **index.html** is used by Caddy as the homepage, with links to each webapp.
 
