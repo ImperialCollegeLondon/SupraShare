@@ -1,6 +1,6 @@
 name: CI SupraShare
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
 
