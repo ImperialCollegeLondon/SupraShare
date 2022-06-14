@@ -34,8 +34,10 @@ branch (`develop`). A new `main` branch can be created afterwards for deployment
 
 The code in the `website` directory uses [Plotly Dash](https://plotly.com/dash/) and is
 separated into several submodules. The terminology is well-explained in the [Dash documentation](https://dash.plotly.com/introduction).
+It also uses [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/docs/components/) for styling, layout and interactive components.
 
-- **Components:** Each component used on the webpage and imported in **Layout** is defined here.Generally these are functions that return a dash core or dash bootstrap component.
+- **Components:** Each component used on the webpage and imported in **Layout** is defined here. Generally these are functions that return a dash core or dash bootstrap component. These components are designed to be flexible and reusable and contain detail on how to use them in docstrings.
+- **Drawer:** The components that are unique to the JSME Drawer - also imported in **Layout**. This is in a separate module due to dependency restrictions with older versions of scikit-learn.
 - **Layout:** The content for the webpage is defined here, based on imported components.
 - **Model:** Functions that load, prepare and run the actual ML model(s).
 - **Callbacks:** Functions that are automatically called whenever an input component's property changes. These functions make the app interactive and are how users can interact with the underlying model.
@@ -146,9 +148,10 @@ services:
     image: ghcr.io/imperialcollegelondon/new-webapp:main
     environment:
       - APP_NAME=New App Name
+      - URL_PREFIX=/new-webapp
     restart: unless-stopped
     volumes:
-      - ./app_list.yaml:/app_list.yaml
+      - ./app_list.yaml:/usr/src/app/app_list.yaml
 ```
 
 The `Caddyfile` must be updated to direct requests to the new app:
