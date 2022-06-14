@@ -131,10 +131,11 @@ webapp is added.
 ### Adding a new model
 
 The webserver at is configured to periodically check the package repositories specified
-in `docker-compose.yml` for new images. Assuming this is called `new-webapp` a new service
-needs to be specified in `docker-compose.yml`, e.g.:
+in `docker-compose.yml` for new images. Assuming this is called `new-webapp` (and the repository
+address is `imperialcollegelondon/new-webapp) a new service needs to be specified in 
+`docker-compose.yml`, e.g.:
 
-```yaml
+```diff
 services:
   cage-prediction-webapp:
     image: ghcr.io/imperialcollegelondon/cage-prediction-webapp:main
@@ -144,23 +145,23 @@ services:
     restart: unless-stopped
     volumes:
       - ./app_list.yaml:/usr/src/app/app_list.yaml
-  new-webapp:
-    image: ghcr.io/imperialcollegelondon/new-webapp:main
-    environment:
-      - APP_NAME=New App Name
-      - URL_PREFIX=/new-webapp
-    restart: unless-stopped
-    volumes:
-      - ./app_list.yaml:/usr/src/app/app_list.yaml
++ new-webapp:
++   image: ghcr.io/imperialcollegelondon/new-webapp:main
++   environment:
++     - APP_NAME=New App Name
++     - URL_PREFIX=/new-webapp
++   restart: unless-stopped
++   volumes:
++     - ./app_list.yaml:/usr/src/app/app_list.yaml
 ```
 
 The `Caddyfile` must be updated to direct requests to the new app:
 
-```text
+```diff
 https://suprashare.rcs.ic.ac.uk {
   tls /srv/cert /srv/key
   reverse_proxy /is-my-cage-porous/* cage-prediction-webapp:8050
-  reverse_proxy /new-webapp/* new-webapp:8050
++ reverse_proxy /new-webapp/* new-webapp:8050
   file_server {
     root /srv/www/root/
   }
@@ -168,16 +169,16 @@ https://suprashare.rcs.ic.ac.uk {
 
 The `app-list.yaml` should include a new mapping of the APP_NAME to the URL path:
 
-```yaml
-Home: /
-Is My Cage Porous?: /is-my-cage-porous/
-New App Name: /new-webapp/
+```diff
+  Home: /
+  Is My Cage Porous?: /is-my-cage-porous/
++ New App Name: /new-webapp/
 ```
 
 Finally, a link should be added in `index.html` to the new App. In it's current, very
 basic form this might look like:
 
-```html
+```diff
 <!doctype html>
 <html>
   <head>
@@ -185,7 +186,7 @@ basic form this might look like:
   </head>
   <body>
     <p><a href="/is-my-cage-porous/">Is My Cage Porous?</a></p>
-    <p><a href="/new-webapp/">New App Title</a></p>
++   <p><a href="/new-webapp/">New App Title</a></p>
   </body>
 </html>
 ```
