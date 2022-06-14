@@ -132,7 +132,7 @@ webapp is added.
 
 The webserver at is configured to periodically check the package repositories specified
 in `docker-compose.yml` for new images. Assuming this is called `new-webapp` (and the repository
-address is `imperialcollegelondon/new-webapp) a new service needs to be specified in 
+address is `imperialcollegelondon/new-webapp) a new service needs to be specified in
 `docker-compose.yml`, e.g.:
 
 ```diff
