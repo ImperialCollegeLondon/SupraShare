@@ -39,7 +39,7 @@ layout and interactive components.
 
 Of the below files, **Layout**, **Model** and **Callbacks** are designed to be adapted to suit
 the needs of the webapp. The others - **App**, **Components** and **Drawer** - are intended to
-mostly be imported as-is (just like any other Python package). 
+mostly be imported as-is (just like any other Python package).
 
 - **Components:** Each component used on the webpage and imported in **Layout** is defined here. Generally these are functions that return a dash core or dash bootstrap component. These components are designed to be flexible and reusable and contain detail on how to use them in docstrings.
 - **Drawer:** The components that are unique to the JSME Drawer - also imported in **Layout**. This is in a separate module due to dependency restrictions with older versions of scikit-learn.
