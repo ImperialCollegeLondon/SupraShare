@@ -34,7 +34,12 @@ branch (`develop`). A new `main` branch can be created afterwards for deployment
 
 The code in the `website` directory uses [Plotly Dash](https://plotly.com/dash/) and is
 separated into several submodules. The terminology is well-explained in the [Dash documentation](https://dash.plotly.com/introduction).
-It also uses [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/docs/components/) for styling, layout and interactive components.
+It also uses [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/docs/components/) for styling,
+layout and interactive components.
+
+Of the below files, **Layout**, **Model** and **Callbacks** are designed to be adapted to suit
+the needs of the webapp. The others - **App**, **Components** and **Drawer** - are intended to
+mostly be imported as-is (just like any other Python package). 
 
 - **Components:** Each component used on the webpage and imported in **Layout** is defined here. Generally these are functions that return a dash core or dash bootstrap component. These components are designed to be flexible and reusable and contain detail on how to use them in docstrings.
 - **Drawer:** The components that are unique to the JSME Drawer - also imported in **Layout**. This is in a separate module due to dependency restrictions with older versions of scikit-learn.
@@ -42,6 +47,10 @@ It also uses [Dash Bootstrap Components](https://dash-bootstrap-components.opens
 - **Model:** Functions that load, prepare and run the actual ML model(s).
 - **Callbacks:** Functions that are automatically called whenever an input component's property changes. These functions make the app interactive and are how users can interact with the underlying model.
 - **App:** The main python file to run the webapp. Brings together the **Layout** and **Callback** components and sets various important variables such as APP_NAME and URL_PATH.
+
+Note: some callbacks are defined in **Callbacks** and others in **Components** and **Drawer**.
+Those in **Callbacks** are app-specific and where we recommend adding your own callbacks, the
+others are there to make the custom components interactive.
 
 ```mermaid
   graph TD;
