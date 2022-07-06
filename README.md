@@ -184,22 +184,6 @@ The `app-list.yaml` should include a new mapping of the APP_NAME to the URL path
 + New App Name: /new-webapp/
 ```
 
-Finally, a link should be added in `index.html` to the new App. In it's current, very
-basic form this might look like:
-
-```diff
-<!doctype html>
-<html>
-  <head>
-  <title>SupraShare Landing Page</title>
-  </head>
-  <body>
-    <p><a href="/is-my-cage-porous/">Is My Cage Porous?</a></p>
-+   <p><a href="/new-webapp/">New App Title</a></p>
-  </body>
-</html>
-```
-
 ## Ongoing development
 
 SupraShare is jointly developed by the [Jelfs Research Group](http://www.jelfs-group.org/) and the Imperial College [Research Software Engineering Team](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/).
