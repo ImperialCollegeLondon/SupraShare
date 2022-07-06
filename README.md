@@ -183,7 +183,7 @@ The `app-list.yaml` should include a new mapping of the APP_NAME to the URL path
 + New App Name: /new-webapp/
 ```
 
-Finally, you may at this point want to add a link to your new app in the [front page app](https://github.com/ImperialCollegeLondon/SupraShareFrontPage). 
+Finally, you may at this point want to add a link to your new app in the [front page app](https://github.com/ImperialCollegeLondon/SupraShareFrontPage).
 
 ## Ongoing development
 
