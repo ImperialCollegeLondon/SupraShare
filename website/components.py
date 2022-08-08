@@ -9,11 +9,12 @@ from rdkit.Chem.Draw import MolsToGridImage
 from rdkit.Chem.rdmolfiles import MolFromMolBlock, MolToSmiles
 
 
-def image_card(src: str, caption: str = None) -> dbc.Card:
+def image_card(src: str, alt: str, caption: str = None) -> dbc.Card:
     """Generate a card with an image and an optional caption.
 
     Args:
         src (str): The URL of the image.
+        alt (str): The alt text for the image.
         caption (str, optional): The caption describing the image.
 
     Returns:
@@ -21,7 +22,7 @@ def image_card(src: str, caption: str = None) -> dbc.Card:
     """
     if caption:
         caption = dbc.CardFooter(caption, style={"text-align": "center"})
-    return dbc.Card([dbc.CardImg(src=src, top=True), caption])
+    return dbc.Card([dbc.CardImg(src=src, top=True, alt=alt), caption])
 
 
 def captioned_image_row(images: list) -> dbc.Row:
@@ -31,6 +32,7 @@ def captioned_image_row(images: list) -> dbc.Row:
         images (list): A list of dictionaries containing the source and captions for
             the images. The captions are optional. Allowed keywords in dictionary:
                 - src: The URL of the image.
+                - alt: The alt text for the image.
                 - caption (optional): The caption for the image.
 
 

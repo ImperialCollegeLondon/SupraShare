@@ -23,10 +23,12 @@ def content() -> list:
     images_and_captions = [
         dict(
             src=dash.get_asset_url("cavity.png"),
+            alt="CC3, a shape persistent cage with a cavity.",
             caption="CC3, a shape persistent cage with cavity highlighted in red.",
         ),
         dict(
             src=dash.get_asset_url("collapsed.png"),
+            alt="A collapsed cage lacking a central cavity.",
             caption="A collapsed cage lacking a central cavity.",
         ),
     ]
