@@ -132,7 +132,6 @@ The webserver setup consists of only a few configuration files:
 - **docker-compose.override.yml** handles the automatic pulling of new images using [watchtower](https://github.com/containrrr/watchtower).
 - **Caddyfile** configures the [Caddy](https://caddyserver.com/docs/caddyfile) webserver, mainly handling the reverse proxy that directs client requests to the correct webapp.
 - **app_list.yml** is used internally by each app to provide links to other apps in the navbar.
-- **index.html** is used by Caddy as the homepage, with links to each webapp.
 
 All of these files need updating (apart from `docker-compose.override.yml`) when a new
 webapp is added.
@@ -184,21 +183,7 @@ The `app-list.yaml` should include a new mapping of the APP_NAME to the URL path
 + New App Name: /new-webapp/
 ```
 
-Finally, a link should be added in `index.html` to the new App. In it's current, very
-basic form this might look like:
-
-```diff
-<!doctype html>
-<html>
-  <head>
-  <title>SupraShare Landing Page</title>
-  </head>
-  <body>
-    <p><a href="/is-my-cage-porous/">Is My Cage Porous?</a></p>
-+   <p><a href="/new-webapp/">New App Title</a></p>
-  </body>
-</html>
-```
+Finally, you may at this point want to add a link to your new app in the [front page app](https://github.com/ImperialCollegeLondon/SupraShareFrontPage).
 
 ## Ongoing development
 
