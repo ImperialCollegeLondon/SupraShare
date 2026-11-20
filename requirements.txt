@@ -1,0 +1,11 @@
+rdkit
+scikit-learn
+gunicorn
+scipy
+pytest
+xarray
+dash-bootstrap-components
+dash-bio
+PyYAML
+six
+

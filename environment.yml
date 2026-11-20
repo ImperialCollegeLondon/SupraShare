@@ -12,3 +12,4 @@ dependencies:
   - dash-bootstrap-components
   - dash-bio
   - pyyaml
+  - six
