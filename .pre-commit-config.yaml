@@ -4,8 +4,8 @@ repos:
     hooks:
       - id: check-merge-conflict
       - id: debug-statements
-  - repo: https://github.com/timothycrosley/isort
-    rev: "5.10.1"
+  - repo: https://github.com/pycqa/isort
+    rev: "9.0.2"
     hooks:
       - id: isort
         additional_dependencies: [toml]
@@ -13,8 +13,8 @@ repos:
     rev: "22.3.0"
     hooks:
       - id: black
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.5.0
     hooks:
       - id: flake8
   - repo: https://github.com/markdownlint/markdownlint
