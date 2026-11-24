@@ -89,7 +89,6 @@ then install all required libraries with pip.
 When a container based on the image starts running the webapp server is started and the
 correct port is exposed. More information on the `Dockerfile` can be found [here](https://docs.docker.com/engine/reference/builder/).
 
-
 #### docker-compose.yml
 
 The [`docker-compose` command](https://docs.docker.com/compose/) is used to orchestrate
