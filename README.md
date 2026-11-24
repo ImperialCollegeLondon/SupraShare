@@ -83,15 +83,12 @@ As well as the usual files such as `LICENCE`, `.gitignore` etc., we have:
 
 [Docker](https://www.docker.com/) is used to set up a container within which the webapp
 runs. The `Dockerfile` is used by Docker to build the image that defines the
-container automatically. In our case, the steps are to pull a miniconda3 parent image
-then set up a conda environment.
+container automatically. In our case, the steps are to pull a python parent image
+then install all required libraries with pip.
 
 When a container based on the image starts running the webapp server is started and the
 correct port is exposed. More information on the `Dockerfile` can be found [here](https://docs.docker.com/engine/reference/builder/).
 
-*Note:* The continuumio/miniconda3 parent image is quite large (although smaller than an anaconda equivalent) and still uses anaconda so can be slow to build complex environments.
-You may consider using [micromamba](https://github.com/mamba-org/micromamba-docker) to
-speed things up a bit.
 
 #### docker-compose.yml
 
@@ -104,7 +101,7 @@ The command `docker-compose up --build` is used to build the image(s) then start
 containers.
 
 `docker-compose` is more useful (and the config more complicated) in the [deployment](#deployment)
-environemnt where multiple webapps containing different models are being run.
+environment where multiple webapps containing different models are being run.
 
 ### CI & CD
 
@@ -120,7 +117,7 @@ pre-commit run --all-files # optionally to run once on everything
 ```
 
 For easy deployment, a [Docker image](https://github.com/ImperialCollegeLondon/SupraShare/pkgs/container/suprashare)
-is automatically generated [according to the ci.yml config](https://github.com/ImperialCollegeLondon/SupraShare/blob/develop/.github/workflows/ci.yml) when changes are merged into the main branch.
+is automatically generated [according to the ci.yml config](https://github.com/ImperialCollegeLondon/SupraShare/blob/develop/.github/workflows/ci.yml) when changes are merged into the develop branch, pushed to other branches will create an image tagged with the name of the branch, but not with `latest`.
 
 ## Deployment on the webserver
 
@@ -129,11 +126,11 @@ is automatically generated [according to the ci.yml config](https://github.com/I
 The webserver setup consists of only a few configuration files:
 
 - **docker-compose.yml** configures the multi-container docker setup as described above and
-- **docker-compose.override.yml** handles the automatic pulling of new images using [watchtower](https://github.com/containrrr/watchtower).
+- A custom cronjob that pull updates images overnight.
 - **Caddyfile** configures the [Caddy](https://caddyserver.com/docs/caddyfile) webserver, mainly handling the reverse proxy that directs client requests to the correct webapp.
 - **app_list.yml** is used internally by each app to provide links to other apps in the navbar.
 
-All of these files need updating (apart from `docker-compose.override.yml`) when a new
+All of these files need updating when a new
 webapp is added.
 
 ### Adding a new model
@@ -196,6 +193,6 @@ to ask questions, report bugs and request features.
 
 Each newly created app based on this template should include in the README:
 
-- Details of any pulication and archived data relating to the model, including DOIs
+- Details of any publication and archived data relating to the model, including DOIs
 - Instructions on how to use the app (allowed input format(s) and expected output(s))
 - Instructions for running unit tests
